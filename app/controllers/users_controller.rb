@@ -1,15 +1,24 @@
 class UsersController < ApplicationController
 
-  before_action :require_login, only: [:show, :index]
+  before_action :require_login, except: [:index, :new, :create]
 
   def new
     @user = User.new
+    respond_to do |format|
+      format.html
+    end
   end
 
   def create
-    @user = User.create(user_params)
-    session[:current_user_id] = @user.id
-    redirect_to user_path(@user.id)
+    @user = User.new(user_params)
+    if @user.save
+      session[:current_user_id] = @user.id
+      flash[:notice] = "You have successfully signed up!"
+      redirect_to user_path(@user.id)
+    else
+      flash[:notice] = "That username already exists!"
+      redirect_to new_user_path
+    end
   end
 
   def show
@@ -17,7 +26,6 @@ class UsersController < ApplicationController
   end
 
   def index
-    redirect_to user_path(session[:current_user_id])
   end
 
   private

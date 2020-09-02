@@ -10,9 +10,16 @@
   </head>
 
   <body>
+    <% if flash[:notice] %>
+      <div class="notice"><%= flash[:notice] %></div>
+    <% end %>
     <div>
     <% if signed_in? %>
       <%= current_user.name%> is logged in
+      <%= link_to('Sign Out', session_path(session[:current_user_id]), method: :delete) %> 
+      <%= link_to 'All Events', events_path %> 
+      <%= link_to 'My Events', user_path(session[:current_user_id]) %> 
+      <%= link_to 'New Event', new_event_path %> 
     <% else %>
       <%= 'No one is logged in' %>
     <% end %>

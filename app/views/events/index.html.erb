@@ -1,4 +1,17 @@
-<% @events.all.each do |event| %>
+<%= 'Past Events:' %><br>
+<% @events.past.each do |event| %>
   <%= event.title %><br>
-  <%= event.description %><br><br>
+  <%= event.description %><br>
+  <%= event.date %><br>
+  <%= event.location %><br><br>
+<% end %>
+<%= 'Upcoming Events:' %><br>
+<% @events.upcoming.each do |event| %>
+  <%= event.title %><br>
+  <%= event.description %><br>
+  <%= event.date %><br>
+  <%= event.location %><br>
+  <% unless event.creator_id == current_user.id %>
+    <%= link_to('Attend', event_path(event.id), method: :put) %><br><br>
+  <% end %>
 <% end %>

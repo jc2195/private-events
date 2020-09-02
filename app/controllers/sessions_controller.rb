@@ -9,6 +9,9 @@ class SessionsController < ApplicationController
     redirect_to user_path(@user.id)
   end
 
-
+  def destroy
+    reset_session
+    redirect_to users_path
+  end
 
 end

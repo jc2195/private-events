@@ -1,6 +1,26 @@
-<%= @user.name %>
-<div>Events:</div>
+<div>My events:</div>
 <% @user.created_events.all.each do |event| %>
   <%= event.title %><br>
-  <%= event.description %><br><br>
+  <%= event.description %><br>
+  <%= event.date %><br>
+  <%= event.location %><br>
+  <%= link_to('View', event_path(event.id), method: :get) %><br><br>
+<% end %>
+<div>Previously attended events:</div>
+<% @user.attended_events.all.each do |event| %>
+  <% if event.date < Date.today %>
+    <%= event.title %><br>
+    <%= event.description %><br>
+    <%= event.date %><br>
+    <%= event.location %><br><br>
+  <% end %>
+<% end %>
+<div>Upcoming events:</div>
+<% @user.attended_events.all.each do |event| %>
+  <% if event.date > Date.today %>
+    <%= event.title %><br>
+    <%= event.description %><br>
+    <%= event.date %><br>
+    <%= event.location %><br><br>
+  <% end %>
 <% end %>
